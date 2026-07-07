@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fall 2026 Enrollment &amp; Re-enrollment — i805</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --crimson:#4f9d92; --gold:#e7d68a; --ink:#33414d; --muted:#74818d;
+           --paper:#fbfaf1; --line:#e7e9e3; --track:#eef1ee; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:linear-gradient(165deg,#eef4fa 0%,var(--paper) 42%,#fbf6e6 100%);
+          background-attachment:fixed; color:var(--ink);
+          font-family:"Source Sans 3",system-ui,sans-serif; line-height:1.4; }
+  .topbar { height:6px; background:linear-gradient(90deg,var(--crimson),var(--gold)); }
+  header { max-width:1000px; margin:0 auto; padding:22px 26px 2px;
+            display:flex; justify-content:space-between; align-items:flex-end; gap:16px; }
+  .eyebrow { font-size:.74rem; letter-spacing:.14em; text-transform:uppercase;
+              color:var(--crimson); font-weight:700; }
+  h1 { font-family:"Fraunces",Georgia,serif; font-weight:600;
+        font-size:clamp(1.5rem,3vw,2.1rem); margin:.1em 0 .05em; line-height:1.08; }
+  .sub { color:var(--muted); font-size:.9rem; }
+  .srcline { color:var(--muted); font-size:.78rem; margin-top:4px; }
+  .srcline code { background:#eef1ee; border-radius:4px; padding:1px 5px; font-size:.9em; }
+  .printbtn { flex:none; background:#fff; border:1px solid var(--line); cursor:pointer;
+    border-radius:10px; padding:9px 15px; font:inherit; font-weight:700; color:var(--crimson); }
+  .printbtn:hover { background:var(--crimson); color:#fff; }
+  nav.tabs { max-width:1000px; margin:14px auto 0; padding:0 26px; display:flex; }
+  .seg { display:inline-flex; background:#eef1ee; border:1px solid var(--line);
+    border-radius:12px; padding:5px; gap:5px; }
+  .tabbtn { background:none; border:none; cursor:pointer; font:inherit; font-weight:700;
+    font-size:.98rem; color:var(--muted); padding:9px 20px; border-radius:9px; transition:all .12s; }
+  .tabbtn:hover { color:var(--crimson); }
+  .tabbtn.active { color:#fff; background:var(--crimson); box-shadow:0 2px 6px rgba(79,157,146,.35); }
+  main { max-width:1000px; margin:0 auto; padding:6px 26px 48px; }
+  .tab { display:none; } .tab.active { display:block; }
+  .kpis { display:flex; flex-wrap:wrap; gap:12px; margin:16px 0 4px; }
+  .kpi { flex:1; min-width:150px; background:#fff; border:1px solid var(--line);
+          border-top:3px solid var(--crimson); border-radius:13px; padding:13px 16px; }
+  .kpi:nth-child(3n+2) { border-top-color:#ecd98c; }
+  .kpi:nth-child(3n+3) { border-top-color:#a9d6c9; }
+  .kpi .n { font-family:"Fraunces",serif; font-size:1.85rem; font-weight:600;
+             color:var(--crimson); line-height:1; }
+  .kpi .l { color:var(--muted); font-size:.74rem; text-transform:uppercase;
+             letter-spacing:.06em; margin-top:5px; }
+  section { background:#fff; border:1px solid var(--line); border-radius:14px;
+             padding:14px 18px; margin:14px 0; break-inside:avoid; }
+  h2 { font-family:"Fraunces",serif; font-weight:600; font-size:1.12rem; margin:0 0 6px;
+        display:flex; align-items:center; gap:9px; }
+  h2::before { content:""; width:11px; height:11px; border-radius:3px;
+        background:linear-gradient(135deg,var(--crimson),var(--gold)); flex:none; }
+  .note { color:var(--muted); font-size:.8rem; margin:0 0 10px; }
+  /* ---- CSS bar list (no clipping possible) ---- */
+  .barlist { display:flex; flex-direction:column; gap:7px; }
+  .barrow { display:grid; grid-template-columns:minmax(110px,210px) 1fr minmax(104px,auto);
+    align-items:center; gap:12px; }
+  .barlabel { font-size:.86rem; color:var(--ink); line-height:1.2; word-break:break-word; }
+  .bartrack { background:var(--track); border-radius:6px; height:18px; overflow:hidden; }
+  .barfill { height:100%; border-radius:6px 4px 4px 6px; min-width:3px; }
+  .barval { font-size:.85rem; font-weight:700; color:var(--ink);
+    font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap; }
+  .barval .pct { color:var(--muted); font-weight:400; }
+  @media (max-width:560px) {
+    .barrow { grid-template-columns:1fr auto; }
+    .bartrack { grid-column:1 / -1; }
+  }
+  /* ---- CSS radial gauges (stacked) ---- */
+  .gaugestack { display:flex; flex-direction:column; gap:16px; align-items:center; }
+  .gaugecard { background:#fcfbf6; border:1px solid var(--line); border-radius:12px;
+    padding:16px; text-align:center; max-width:560px; width:100%; }
+  .gauge { width:150px; height:150px; border-radius:50%; margin:0 auto 8px;
+    display:grid; place-items:center; }
+  .gaugehole { width:108px; height:108px; border-radius:50%; background:#fcfbf6;
+    display:grid; place-items:center; }
+  .gaugeval { font-family:"Fraunces",serif; font-size:1.9rem; font-weight:600; color:var(--ink); }
+  .gl { font-size:.9rem; color:var(--ink); font-weight:700; }
+  .gm { color:var(--muted); font-size:.8rem; margin-top:2px; }
+  footer { max-width:1000px; margin:0 auto; padding:0 26px 40px; color:var(--muted); font-size:.78rem; }
+  .tab-title { display:none; }
+  @media print {
+    @page { size:letter portrait; margin:0.4in; }
+    body { background:#fff; }
+    .printbtn, nav.tabs { display:none !important; }
+    .tab { display:none !important; } .tab.active { display:block !important; }
+    .tab-title { display:block; font-family:"Fraunces",serif; font-size:1.3rem; margin:6px 0 0; }
+    section { break-inside:avoid; }
+    .gauge, .gaugehole { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .barfill { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  }
+</style></head>
+<body>
+  <div class="topbar"></div>
+  <header>
+    <div>
+      <div class="eyebrow">Hostos Community College &middot; Office of Institutional Effectiveness, Research, and Assessment</div>
+      <h1>Fall 2026 Enrollment &amp; Re-enrollment</h1>
+      <div class="sub">F26 term 1269 &middot; F25 cohort retained to F26 &middot; overall 43.9%</div>
+      <div class="srcline">Source: i805 extracts (ADMIT_TYPE build) &middot; generated Jul 07, 2026 10:06 AM</div>
+      <div class="asof" style="margin:10px 0 0;padding:7px 13px;border-radius:8px;background:#fbe7c6;color:#7a5b00;border:1px solid #e6c97a;font-size:13px;display:inline-block">&#9888; i805 enrollment data current through <b>Jun 29, 2026</b> &middot; 8 days old</div>
+    </div>
+    <button class="printbtn" onclick="window.print()">Print / Save PDF</button>
+  </header>
+  <nav class="tabs"><div class="seg">
+    <button class="tabbtn active" onclick="showTab(0,this)">Enrollment</button>
+    <button class="tabbtn" onclick="showTab(1,this)">Re-enrollment (F25&rarr;F26)</button>
+  </div></nav>
+  <main>
+    <div class="tab active" id="tab0">
+      <div class="tab-title">Fall 2026 Enrollment</div>
+      
+    <div class="kpis">
+      <div class="kpi"><div class="n">3,260</div><div class="l">Total enrolled</div></div>
+      <div class="kpi"><div class="n">11</div><div class="l">Top plans shown</div></div>
+      <div class="kpi"><div class="n">7</div><div class="l">Race/ethnicity groups</div></div>
+    </div>
+    <section><h2>Admission Type</h2>
+      <p class="note">i805 classifier: 30015 program &middot; first degree term &middot; prior-term enrollment &middot; ADMIT_TYPE (80000) &amp; readmit action (30005). Collapsed to the core types &mdash; Freshman, Transfer, Continuing, Readmit &mdash; with all else grouped as Other.</p>
+      <div class="barlist"><div class="barrow"><div class="barlabel">First-time Freshman</div><div class="bartrack"><div class="barfill" style="width:16.1%;background:#9ec3e0"></div></div><div class="barval">526 <span class="pct">(16.1%)</span></div></div><div class="barrow"><div class="barlabel">Transfer</div><div class="bartrack"><div class="barfill" style="width:7.9%;background:#ecd98c"></div></div><div class="barval">256 <span class="pct">(7.9%)</span></div></div><div class="barrow"><div class="barlabel">Continuing Degree</div><div class="bartrack"><div class="barfill" style="width:71.3%;background:#a9d6c9"></div></div><div class="barval">2,323 <span class="pct">(71.3%)</span></div></div><div class="barrow"><div class="barlabel">Undergraduate Readmit</div><div class="bartrack"><div class="barfill" style="width:3.2%;background:#cbb8d9"></div></div><div class="barval">105 <span class="pct">(3.2%)</span></div></div><div class="barrow"><div class="barlabel">Other</div><div class="bartrack"><div class="barfill" style="width:2.0%;background:#bcd0c4"></div></div><div class="barval">50 <span class="pct">(1.5%)</span></div></div></div></section>
+    <section><h2>Gender</h2><div class="barlist"><div class="barrow"><div class="barlabel">Women</div><div class="bartrack"><div class="barfill" style="width:71.0%;background:#9ec3e0"></div></div><div class="barval">2,316 <span class="pct">(71.0%)</span></div></div><div class="barrow"><div class="barlabel">Men</div><div class="bartrack"><div class="barfill" style="width:29.0%;background:#ecd98c"></div></div><div class="barval">944 <span class="pct">(29.0%)</span></div></div></div></section>
+    <section><h2>Race / Ethnicity</h2>
+      <p class="note">Priority order from the eight flags; Italian counts as White.</p>
+      <div class="barlist"><div class="barrow"><div class="barlabel">Hispanic/Latino</div><div class="bartrack"><div class="barfill" style="width:60.4%;background:#9ec3e0"></div></div><div class="barval">1,968 <span class="pct">(60.4%)</span></div></div><div class="barrow"><div class="barlabel">American Indian/Alaska Native</div><div class="bartrack"><div class="barfill" style="width:2.0%;background:#ecd98c"></div></div><div class="barval">24 <span class="pct">(0.7%)</span></div></div><div class="barrow"><div class="barlabel">Asian</div><div class="bartrack"><div class="barfill" style="width:4.3%;background:#a9d6c9"></div></div><div class="barval">141 <span class="pct">(4.3%)</span></div></div><div class="barrow"><div class="barlabel">Native Hawaiian/Pacific Islander</div><div class="bartrack"><div class="barfill" style="width:2.0%;background:#cbb8d9"></div></div><div class="barval">6 <span class="pct">(0.2%)</span></div></div><div class="barrow"><div class="barlabel">Black/African American</div><div class="bartrack"><div class="barfill" style="width:29.4%;background:#bcd0c4"></div></div><div class="barval">960 <span class="pct">(29.4%)</span></div></div><div class="barrow"><div class="barlabel">White</div><div class="bartrack"><div class="barfill" style="width:2.0%;background:#e6c79c"></div></div><div class="barval">66 <span class="pct">(2.0%)</span></div></div><div class="barrow"><div class="barlabel">Not Specified</div><div class="bartrack"><div class="barfill" style="width:2.9%;background:#a9bcd0"></div></div><div class="barval">95 <span class="pct">(2.9%)</span></div></div></div></section>
+    <section><h2>Full-time / Part-time</h2><div class="barlist"><div class="barrow"><div class="barlabel">Part-time</div><div class="bartrack"><div class="barfill" style="width:52.3%;background:#9ec3e0"></div></div><div class="barval">1,704 <span class="pct">(52.3%)</span></div></div><div class="barrow"><div class="barlabel">Full-time</div><div class="bartrack"><div class="barfill" style="width:47.7%;background:#ecd98c"></div></div><div class="barval">1,556 <span class="pct">(47.7%)</span></div></div></div></section>
+    <section><h2>Top 10 Academic Plans</h2><div class="barlist"><div class="barrow"><div class="barlabel">Liberal Arts and Science AA</div><div class="bartrack"><div class="barfill" style="width:30.0%;background:#9ec3e0"></div></div><div class="barval">978 <span class="pct">(30.0%)</span></div></div><div class="barrow"><div class="barlabel">Radiologic Technology AAS</div><div class="bartrack"><div class="barfill" style="width:15.5%;background:#ecd98c"></div></div><div class="barval">506 <span class="pct">(15.5%)</span></div></div><div class="barrow"><div class="barlabel">Dental Hygiene AAS</div><div class="bartrack"><div class="barfill" style="width:9.2%;background:#a9d6c9"></div></div><div class="barval">300 <span class="pct">(9.2%)</span></div></div><div class="barrow"><div class="barlabel">Early Childhood Education AAS</div><div class="bartrack"><div class="barfill" style="width:6.0%;background:#cbb8d9"></div></div><div class="barval">197 <span class="pct">(6.0%)</span></div></div><div class="barrow"><div class="barlabel">Business Management AS</div><div class="bartrack"><div class="barfill" style="width:5.0%;background:#bcd0c4"></div></div><div class="barval">164 <span class="pct">(5.0%)</span></div></div><div class="barrow"><div class="barlabel">Practical Nursing CERT</div><div class="bartrack"><div class="barfill" style="width:4.2%;background:#e6c79c"></div></div><div class="barval">138 <span class="pct">(4.2%)</span></div></div><div class="barrow"><div class="barlabel">Criminal Justice AA</div><div class="bartrack"><div class="barfill" style="width:4.2%;background:#a9bcd0"></div></div><div class="barval">138 <span class="pct">(4.2%)</span></div></div><div class="barrow"><div class="barlabel">Computer Science AS</div><div class="bartrack"><div class="barfill" style="width:3.7%;background:#d8c3c3"></div></div><div class="barval">122 <span class="pct">(3.7%)</span></div></div><div class="barrow"><div class="barlabel">Game Design AAS</div><div class="bartrack"><div class="barfill" style="width:3.2%;background:#9ec3e0"></div></div><div class="barval">103 <span class="pct">(3.2%)</span></div></div><div class="barrow"><div class="barlabel">Digital Dsgn and Animation AAS</div><div class="bartrack"><div class="barfill" style="width:2.6%;background:#ecd98c"></div></div><div class="barval">84 <span class="pct">(2.6%)</span></div></div><div class="barrow"><div class="barlabel">All other (21)</div><div class="bartrack"><div class="barfill" style="width:16.3%;background:#a9d6c9"></div></div><div class="barval">530 <span class="pct">(16.3%)</span></div></div></div></section>
+    
+    </div>
+    <div class="tab" id="tab1">
+      <div class="tab-title">Fall 2026 Re-enrollment of Fall 2025 Freshmen &amp; Transfers</div>
+      
+    <div class="kpis"><div class="kpi"><div class="n">47.1%</div><div class="l">Freshmen re-enrolled</div></div><div class="kpi"><div class="n">39.9%</div><div class="l">Transfers re-enrolled</div></div><div class="kpi"><div class="n">43.9%</div><div class="l">All new students re-enrolled</div></div></div>
+    <section><h2>Official cohort re-enrollment</h2>
+      <p class="note">Full-time students in associate-degree programs (plan ending -AA/-AS/-AAS), certificate programs excluded, new entrants only (no prior fall/spring enrollment), to match the official Comprehensive Show cohort.</p>
+      <div class="gaugestack">
+        <div class="gaugecard"><div class="gauge" style="background:conic-gradient(#4f9d92 0% 49.6%,#eef1ee 49.6% 100%)"><div class="gaugehole"><span class="gaugeval">49.6%</span></div></div><div class="gl">First-time, Full-time Freshmen in Associate Degree Programs</div><div class="gm">333 of 672 re-enrolled</div></div><div class="gaugecard"><div class="gauge" style="background:conic-gradient(#cdb863 0% 44.9%,#eef1ee 44.9% 100%)"><div class="gaugehole"><span class="gaugeval">44.9%</span></div></div><div class="gl">Full-time Transfers in Associate Degree Programs</div><div class="gm">171 of 381 re-enrolled</div></div>
+      </div></section>
+    <section><h2>Re-enrollment rate by cohort group</h2>
+      <div class="barlist"><div class="barrow"><div class="barlabel">Freshmen</div><div class="bartrack"><div class="barfill" style="width:47.1%;background:#9ec3e0"></div></div><div class="barval">47.1% <span class="pct">(431/916)</span></div></div><div class="barrow"><div class="barlabel">Transfers</div><div class="bartrack"><div class="barfill" style="width:39.9%;background:#ecd98c"></div></div><div class="barval">39.9% <span class="pct">(281/705)</span></div></div><div class="barrow"><div class="barlabel">All new students</div><div class="bartrack"><div class="barfill" style="width:43.9%;background:#a9d6c9"></div></div><div class="barval">43.9% <span class="pct">(712/1,621)</span></div></div></div></section>
+    <section><h2>Re-enrollment by Full-time / Part-time</h2><div class="barlist"><div class="barrow"><div class="barlabel">FULL-TIME</div><div class="bartrack"><div class="barfill" style="width:47.7%;background:#9ec3e0"></div></div><div class="barval">47.7% <span class="pct">(527/1,105)</span></div></div><div class="barrow"><div class="barlabel">PART-TIME</div><div class="bartrack"><div class="barfill" style="width:35.9%;background:#ecd98c"></div></div><div class="barval">35.9% <span class="pct">(185/516)</span></div></div></div></section><section><h2>Re-enrollment by Gender</h2><div class="barlist"><div class="barrow"><div class="barlabel">Women</div><div class="bartrack"><div class="barfill" style="width:45.5%;background:#9ec3e0"></div></div><div class="barval">45.5% <span class="pct">(510/1,120)</span></div></div><div class="barrow"><div class="barlabel">Men</div><div class="bartrack"><div class="barfill" style="width:40.3%;background:#ecd98c"></div></div><div class="barval">40.3% <span class="pct">(202/501)</span></div></div></div></section><section><h2>Top 10 Re-enrolling Programs (Fall 2025 program)</h2><p class="note">F25 program of the cohort, regardless of what they re-enroll into for Fall 2026.</p><div class="barlist"><div class="barrow"><div class="barlabel">Liberal Arts and Science AA</div><div class="bartrack"><div class="barfill" style="width:51.3%;background:#9ec3e0"></div></div><div class="barval">51.3% <span class="pct">(242/472)</span></div></div><div class="barrow"><div class="barlabel">Radiologic Technology AAS</div><div class="bartrack"><div class="barfill" style="width:31.6%;background:#ecd98c"></div></div><div class="barval">31.6% <span class="pct">(89/282)</span></div></div><div class="barrow"><div class="barlabel">Dental Hygiene AAS</div><div class="bartrack"><div class="barfill" style="width:35.8%;background:#a9d6c9"></div></div><div class="barval">35.8% <span class="pct">(54/151)</span></div></div><div class="barrow"><div class="barlabel">Practical Nursing CERT</div><div class="bartrack"><div class="barfill" style="width:28.6%;background:#cbb8d9"></div></div><div class="barval">28.6% <span class="pct">(30/105)</span></div></div><div class="barrow"><div class="barlabel">Business Management AS</div><div class="bartrack"><div class="barfill" style="width:40.4%;background:#bcd0c4"></div></div><div class="barval">40.4% <span class="pct">(40/99)</span></div></div><div class="barrow"><div class="barlabel">Criminal Justice AA</div><div class="bartrack"><div class="barfill" style="width:48.0%;background:#e6c79c"></div></div><div class="barval">48.0% <span class="pct">(36/75)</span></div></div><div class="barrow"><div class="barlabel">Computer Science AS</div><div class="bartrack"><div class="barfill" style="width:47.4%;background:#a9bcd0"></div></div><div class="barval">47.4% <span class="pct">(27/57)</span></div></div><div class="barrow"><div class="barlabel">Early Childhood Education AAS</div><div class="bartrack"><div class="barfill" style="width:53.6%;background:#d8c3c3"></div></div><div class="barval">53.6% <span class="pct">(30/56)</span></div></div><div class="barrow"><div class="barlabel">Game Design AAS</div><div class="bartrack"><div class="barfill" style="width:56.9%;background:#9ec3e0"></div></div><div class="barval">56.9% <span class="pct">(29/51)</span></div></div><div class="barrow"><div class="barlabel">Digital Dsgn and Animation AAS</div><div class="bartrack"><div class="barfill" style="width:74.5%;background:#ecd98c"></div></div><div class="barval">74.5% <span class="pct">(35/47)</span></div></div></div></section>
+    
+    </div>
+  </main>
+  <footer>Generated Jul 07, 2026 10:06 AM from i805 extracts (ADMIT_TYPE build). New cohort = degree admits for Fall 2025 (80000/80005) who enrolled (30020);
+    freshman vs transfer from <code>ADMIT_TYPE</code> (FRS/FRD&rarr;Freshman, TRN/TRD&rarr;Transfer), 99.9% agreement vs the official cohort. Cohort base (1,621) differs from the IRA census (1,608) by snapshot timing and a small readmit edge. Tip: click a tab, then Print / Save PDF to print just that page.</footer>
+  <script>
+    function showTab(i, btn) {
+      document.querySelectorAll('.tab').forEach((t,k)=>t.classList.toggle('active',k===i));
+      document.querySelectorAll('.tabbtn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+  </script>
+</body></html>
